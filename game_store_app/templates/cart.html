@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-gray fixed-top">
+            <div class="container-fluid">
+                <!-- Avatar + Username -->
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'profile' %}">
+                    {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="avatar" class="rounded-circle me-2" width="40" height="40">
+                    {% else %}
+                    <img src="{% static 'avatars/default.png' %}" alt="default avatar" class="rounded-circle me-2"
+                        width="40" height="40">
+                    {% endif %}
+                    <span class="user_name">{{ user.username }}</span>
+                </a>
+
+                <!-- Toggle for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="position-absolute top-50 start-50 translate-middle">
+                    <img src="{% static 'images/logo.png' %}" alt="Game Store Logo" class="logo">
+                </a>
+
+                <!-- Nav links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                                href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+                                href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}"
+                                href="{% url 'cart' %}">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}"
+                                href="{% url 'wishlist' %}">Wishlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger {% if request.resolver_match.url_name == 'logout' %}active{% endif %}"
+                                href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Messages -->
+    <div class="messages mt-3">
+        {% if messages %}
+        <div class="row justify-content-center">
+            {% for message in messages %}
+            <div class="col-md-8 mb-3">
+                <div class="card shadow-sm border-{{ message.tags }}">
+                    <div class="card-body">
+                        <h6 class="card-title text-capitalize">{{ message.tags }}</h6>
+                        <p class="card-text mb-0">{{ message }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="container mt-4">
+        {% if cart_items %}
+        <div class="row">
+            {% for item in cart_items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <a href="{% url 'game_detail' item.game.id %}">
+                        <div class="ratio ratio-16x9 overflow-hidden">
+                            <!-- Game cover -->
+                            {% if item.game.cover_image %}
+                            <img src="{{ item.game.cover_image.url }}" class="card-img-top" alt="{{ item.game.title }}">
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.game.title }}</h5>
+                        <p class="card-text">{{ item.game.genre }}</p>
+                        <p class="card-text">
+                            <strong>Rating:</strong>
+                            {% if game.average_rating %}
+                            {{ game.average_rating|floatformat:1 }} / 5 ⭐
+                            {% else %}
+                            <span class="text-muted">No ratings yet</span>
+                            {% endif %}
+                        </p>
+                        <p class="card-text">
+                            <strong>Price:</strong>
+                            {% if item.game.price == 0 %}
+                            Free
+                            {% else %}
+                            ${{ item.game.price }}
+                            {% endif %}
+                        </p>
+
+                        <!-- Remove button -->
+                        <form method="post" action="{% url 'remove_from_cart' item.game.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+
+                        <!-- Buy button -->
+                        <form method="post" action="{% url 'buy_game' item.game.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">
+                                {% if item.game.price == 0 %}Get Free{% else %}Buy{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card text-center mt-4 border-0 shadow-sm">
+            <div class="card-body">
+                <i class="bi bi-cart-x display-4 text-muted"></i>
+                <h5 class="card-title mt-3">Your cart is empty</h5>
+                <p class="card-text">Start adding games to see them here.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">Browse Games</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer class="bg-gray text-light py-1 mt-auto fixed-bottom">
+        <div class="container text-center">
+            <div class="row">
+                <!-- Left side: Branding -->
+                <div class="col-md-6">
+                    <h5><span class="title">Game Store</span></h5>
+                    <p class="mb-0">&copy; 2024 Game Store. All rights reserved.</p>
+                </div>
+
+                <!-- Right side: Contact -->
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">
+                        For technical support contact us at:
+                        <a href="mailto:luai.5m3@gmail.com" class="text-info">luai.5m3@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

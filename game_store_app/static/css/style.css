@@ -1,0 +1,129 @@
+body {
+    padding: 50px;
+    margin: 50px;
+    background-color: rgb(27 43 65);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: rgb(23 29 37);
+    color: white;
+}
+
+.card:hover {
+    background-color: rgb(33, 39, 47);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.owned-games {
+    background-color: rgb(27 43 65);
+}
+
+.card-body p:nth-child(3) {
+    color: white !important;
+}
+
+.card-body p.card-text:nth-of-type(1) {
+    color: #17a2b8 !important;
+}
+
+.card-body p.card-text:nth-of-type(3),
+.card-body p.card-text:nth-of-type(2) {
+    color: #ffc107 !important;
+}
+
+.card-body p.card-text:nth-of-type(3) strong,
+.card-body p.card-text:nth-of-type(2) strong {
+    color: #fff;
+}
+
+.card-body span.text-muted,
+.card-body p.card-text:nth-of-type(4) {
+    color: #adb5bd !important;
+}
+
+p.text-muted {
+    color: #adb5bd !important;
+}
+
+.card-title .game-title {
+    color: white !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.card-title .game-title:hover {
+    color: rgb(102, 196, 255) !important;
+
+}
+
+.logo {
+    width: 180px;
+    height: 90px;
+}
+
+.owned-games-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.input-group-text {
+    background-color: #007bff;
+    border: none;
+}
+
+#edit-form {
+    display: none
+}
+
+.mb-3 img {
+    max-width: 150px;
+    max-height: 150px;
+    margin-top: 10px;
+}
+
+.title {
+    color: rgb(26 159 255);
+}
+
+.text-info {
+    color: rgb(26 159 255) !important;
+}
+
+#created_by_you {
+    color: white;
+}
+
+.user_name {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    margin-left: 4px;
+}
+
+.user_name:hover {
+    color: rgb(102, 196, 255) !important;
+    text-decoration: none;
+}
+
+.search {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.bg-gray {
+    background-color: rgb(23 29 37);
+}
+
+.nav-item .nav-link {
+    font-size: 1.1rem;
+    margin-left: 6px;
+}
+
+.index {
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+}
