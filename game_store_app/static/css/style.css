@@ -63,6 +63,10 @@ p.text-muted {
     height: 90px;
 }
 
+.nav-bar-height {
+    height: 90px !important;
+}
+
 .owned-games-container {
     max-height: 400px;
     overflow-y: auto;
@@ -126,4 +130,24 @@ p.text-muted {
     margin: 0;
     margin-top: 5px;
     padding: 0;
+}
+
+.flex-contaner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.img-logo {
+    height: 500px;
+    width: 700px;
+}
+
+.reg-flex {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
 }

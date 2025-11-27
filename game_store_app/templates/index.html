@@ -11,13 +11,53 @@
 </head>
 
 <body class="index">
-    <div class="container py-1">
-        <div class="row justify-content-center">
-            <div class="text-center">
-                <img src="{% static 'images/logo.png' %}" alt="Game Store Logo" class="img-fluid w-50">
+    <div class="flex-contaner">
+        <img src="{% static 'images/logo.png' %}" alt="Game Store Logo" class="img-logo">
+        <div class="reg-flex">
+            <!-- Login Form -->
+            <div class="col-md-4 mb-4 mt-0 pt-0">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white">Sign In</div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="login">
+
+                            <div class="mb-3">
+                                <label for="login_email" class="form-label">Email</label>
+                                <input type="email" name="login_email" class="form-control" placeholder="Email">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="login_password" class="form-label">Password</label>
+                                <input type="password" name="login_password" class="form-control"
+                                    placeholder="Password">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Messages -->
+                <div class="col mt-3">
+                    {% if messages %}
+                    <div class="col justify-content-center">
+                        {% for message in messages %}
+                        <div class="row-md-8 mb-2">
+                            <div class="card shadow-sm border-{{ message.tags }}">
+                                <div class="card-body">
+                                    <h6 class="card-title text-capitalize">{{ message.tags }}</h6>
+                                    <p class="card-text">{{ message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
             </div>
             <!-- Register Form -->
-            <div class="col-md-6 mb-2 mt-0 ">
+            <div class="col-md-4 mb-2 mt-0 ">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">Create Account</div>
                     <div class="card-body">
@@ -76,51 +116,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Login Form -->
-            <div class="col-md-4 mb-4 mt-0 pt-0">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-secondary text-white">Sign In</div>
-                    <div class="card-body">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="action" value="login">
-
-                            <div class="mb-3">
-                                <label for="login_email" class="form-label">Email</label>
-                                <input type="email" name="login_email" class="form-control" placeholder="Email">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="login_password" class="form-label">Password</label>
-                                <input type="password" name="login_password" class="form-control"
-                                    placeholder="Password">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Sign In</button>
-                        </form>
-                    </div>
-                </div>
-                <!-- Messages -->
-                <div class="col mt-3">
-                    {% if messages %}
-                    <div class="col justify-content-center">
-                        {% for message in messages %}
-                        <div class="row-md-8 mb-2">
-                            <div class="card shadow-sm border-{{ message.tags }}">
-                                <div class="card-body">
-                                    <h6 class="card-title text-capitalize">{{ message.tags }}</h6>
-                                    <p class="card-text">{{ message }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     </div>
+
 </body>
 
 </html>
